@@ -22,7 +22,7 @@ def main():
     
     
     schema:str = "aldykarinacp_coderhouse"
-    table:str = "stage_api_alphavantage"
+    table:str = "stage_api_alphavantage_daily"
     API_KEY:str = os.getenv('API_KEY')
    
     data_conn = DataConn(user_credentials, schema, table)

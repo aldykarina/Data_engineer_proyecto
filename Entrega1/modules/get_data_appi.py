@@ -12,7 +12,7 @@ logging.basicConfig(
     
 
 class DataInformation:
-    def __init__(self, function:str = "TIME_SERIES_WEEKLY", symbols:list = ['SPY', 'AAPL', 'GOOGL'], API_KEY:str = None) -> None:
+    def __init__(self, function:str = "TIME_SERIES_DAILY", symbols:list = ['SPY', 'AAPL', 'GOOGL'], API_KEY:str = None) -> None:
         self.function = function
         self.symbols = symbols
         self.API_KEY = API_KEY
@@ -22,7 +22,7 @@ class DataInformation:
         response = requests.get(url)
         data = response.json()
         
-        time_series = data['Weekly Time Series']
+        time_series = data['Time Series (Daily)']
         df = pd.DataFrame.from_dict(time_series, orient='index')
         df = df.rename(columns={
             '1. open': 'open_price',
@@ -33,9 +33,9 @@ class DataInformation:
         })
         df.index = pd.to_datetime(df.index)
         df = df.sort_index()
-        df = df.reset_index().rename(columns={'index': 'date'})  # Convertir el índice en una columna y renombrarla a 'date'
+        df = df.reset_index().rename(columns={'index': 'date'})
         df['symbol'] = symbol
-        df['ingestion_time'] = datetime.datetime.now()  # Agregar la columna temporal de control de ingesta de datos
+        df['ingestion_time'] = datetime.datetime.now() 
               
         return df
           
