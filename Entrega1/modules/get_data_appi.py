@@ -36,6 +36,16 @@ class DataInformation:
         df = df.reset_index().rename(columns={'index': 'date'})
         df['symbol'] = symbol
         df['ingestion_time'] = datetime.datetime.now() 
+        
+        # Crear columna ID como clave primaria compuesta
+        df['ID'] = df['date'].astype(str) + '_' + df['symbol']
+        
+        # Reorganizar las columnas 
+        cols = ['ID'] + [col for col in df.columns if col != 'ID']
+        df = df[cols]
+        
+        # Reemplazar valores nulos o vacíos
+        df.fillna(0, inplace=True)
               
         return df
           
@@ -50,6 +60,9 @@ class DataInformation:
         try:
             
             combined_data = pd.concat(all_data, ignore_index=True) 
+            
+            # Evitar datos duplicados
+            combined_data.drop_duplicates(subset=['ID'], inplace=True)
             print(combined_data)       
            
             buffer = StringIO()

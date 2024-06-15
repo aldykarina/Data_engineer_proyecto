@@ -61,6 +61,7 @@ class DataConn:
                 DROP TABLE IF EXISTS "{schema}"."{table_name}";
 
                 CREATE TABLE "{schema}"."{table_name}" (
+                    ID VARCHAR(50) PRIMARY KEY,
                     date TIMESTAMP,
                     open_price FLOAT,
                     high_price FLOAT,
@@ -97,6 +98,7 @@ class DataConn:
         if self.db_engine:
             self.db_engine.dispose()
             logging.info("Connection to Redshift closed.")
+            print("Connection to Redshift closed.")
         else:
             logging.warning("No active connection to close.")
 
